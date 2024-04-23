@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -24,10 +25,17 @@ import com.google.firebase.ktx.Firebase
 class MainActivity : AppCompatActivity() {
     lateinit var listAdapter: ArrayAdapter<Pais>
     lateinit var dbRef : DatabaseReference
+
+    //autenticacion
+    lateinit var mAuth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         dbRef = Firebase.database.reference
+
+
+        mAuth = FirebaseAuth.getInstance()
 
         setContentView(R.layout.activity_main)
 
@@ -58,11 +66,13 @@ class MainActivity : AppCompatActivity() {
                                 eliminar(m)
 
                             Toast.makeText(this@MainActivity,"Eliminar",Toast.LENGTH_SHORT).show()
-                        } else if (item.itemId == R.id.itemModificar) {
-                            val m: Pais? = listAdapter.getItem(position)
-                            Toast.makeText(this@MainActivity,"Modificar",Toast.LENGTH_SHORT).show()
-                           /// modificarMensaje(m)
                         }
+
+//                        else if (item.itemId == R.id.itemModificar) {
+//                            val m: Pais? = listAdapter.getItem(position)
+//                            Toast.makeText(this@MainActivity,"Modificar",Toast.LENGTH_SHORT).show()
+//                           /// modificarMensaje(m)
+//                        }
                         return true
                     }
                 })
@@ -122,8 +132,7 @@ class MainActivity : AppCompatActivity() {
         dbRef.child("paises").child("-Nvne8blF61GMuuUdlDn").setValue(nuevoPais)
     }
 
-
-    override fun onStart() {
+    fun listar(){
         dbRef.child("paises").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 listAdapter.clear()
@@ -135,6 +144,13 @@ class MainActivity : AppCompatActivity() {
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
+    }
+
+    override fun onStart() {
+
+        //iniciamos conexion a la base de datos
+        listar()
+
         super.onStart()
     }
 }

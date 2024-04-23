@@ -43,6 +43,16 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.firebase:firebase-database:20.3.1")
+
+    //dependencia de firebase auth
+    implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
+
+    //firebase auth-ui
+    implementation("com.firebaseui:firebase-ui-auth:8.0.2")
+//    implementation ("com.facebook.android:facebook-login:8.1.0")//facebook
+//    implementation ("com.google.android.gms:play-services-auth:19.0.0") //google
+
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
